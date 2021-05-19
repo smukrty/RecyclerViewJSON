@@ -88,6 +88,7 @@ public class MainActivity extends AppCompatActivity implements ExampleAdapter.On
     }
 
     @Override
+    //ArrayList中獲取被單擊的對象，然後使用意圖打開我們的DetailActivity
     public void onItemClick(int position) {
         Intent detailIntent = new Intent(this, DetailActivity.class);
         ExampleItem clickedItem = mExampleList.get(position);

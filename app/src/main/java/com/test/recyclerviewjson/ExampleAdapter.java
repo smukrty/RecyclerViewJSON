@@ -19,12 +19,15 @@ public class ExampleAdapter extends RecyclerView.Adapter<ExampleAdapter.ExampleV
     private ArrayList<ExampleItem> mExampleList;
     private OnItemClickListener mListener;
 
+    //建立interface，命名為OnItemClickHandler，並在裡面寫好我們要發生的事件
     public interface OnItemClickListener {
+        // 提供onItemClick方法作為點擊事件，括號內為接受的參數
         void onItemClick(int position);
     }
     public void setOnItemClickListener(OnItemClickListener listener) {
         mListener = listener;
     }
+    //---
 
 
     public ExampleAdapter(Context context, ArrayList<ExampleItem> exampleList) {
@@ -33,13 +36,16 @@ public class ExampleAdapter extends RecyclerView.Adapter<ExampleAdapter.ExampleV
     }
 
     @Override
+
     public ExampleViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        // 連結項目布局檔list_item
         View v = LayoutInflater.from(mContext).inflate(R.layout.example_item, parent, false);
         return new ExampleViewHolder(v);
     }
 
     @Override
     public void onBindViewHolder(ExampleViewHolder holder, int position) {
+        // 設置txtItem要顯示的內容
         ExampleItem currentItem = mExampleList.get(position);
         
         String imageUrl = currentItem.getImageUrl();
@@ -48,7 +54,9 @@ public class ExampleAdapter extends RecyclerView.Adapter<ExampleAdapter.ExampleV
         
         holder.mTextViewCreator.setText(creatorName);
         holder.mTextViewLikes.setText("Likes: " + likeCount);
-        //Picasso.with(mContext).load(imageUrl).fit().centerInside().into(holder.mImageView);//old
+
+        //Old with->get 不用放Context
+        //Picasso.with(mContext).load(imageUrl).fit().centerInside().into(holder.mImageView);
         Picasso.get().load(imageUrl).fit().centerInside().into(holder.mImageView);
     }
 
@@ -57,9 +65,9 @@ public class ExampleAdapter extends RecyclerView.Adapter<ExampleAdapter.ExampleV
         return mExampleList.size();
     }
 
-
+    // 建立ViewHolder
     public class ExampleViewHolder extends RecyclerView.ViewHolder{
-
+        // 宣告元件
         public ImageView mImageView;
         public TextView mTextViewCreator;
         public TextView mTextViewLikes;
@@ -70,9 +78,11 @@ public class ExampleAdapter extends RecyclerView.Adapter<ExampleAdapter.ExampleV
             mTextViewCreator = itemView.findViewById(R.id.text_view_creator);
             mTextViewLikes = itemView.findViewById(R.id.text_view_likes);
 
+            //點擊項目時
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    // 按下項目要做的事
                     if(mListener !=null){
                         int position = getAdapterPosition();
                         if(position != RecyclerView.NO_POSITION){
